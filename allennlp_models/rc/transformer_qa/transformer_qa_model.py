@@ -43,11 +43,11 @@ class TransformerQA(Model):
     """
 
     def __init__(
-        self, vocab: Vocabulary, transformer_model_name: str = "bert-base-cased", **kwargs
+        self, vocab: Vocabulary, transformer_model_name: str = "bert-base-cased", hidden_size=768, **kwargs
     ) -> None:
         super().__init__(vocab, **kwargs)
         self._text_field_embedder = BasicTextFieldEmbedder(
-            {"tokens": PretrainedTransformerEmbedder(transformer_model_name)}
+            {"tokens": PretrainedTransformerEmbedder(transformer_model_name, hidden_size=hidden_size, task="QA")}
         )
         self._linear_layer = nn.Linear(self._text_field_embedder.get_output_dim(), 2)
 
